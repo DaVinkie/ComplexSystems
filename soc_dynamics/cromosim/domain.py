@@ -670,7 +670,7 @@ class Domain():
 
     def plot_wall_dist(self,
             step=10, scale=10, scale_units='inches', id=1, title="",
-            savefig=False, filename='fig.png', dpi = 150):
+            savefig=True, filename='distfig.png', dpi = 150):
         """To plot the wall distances
 
         Parameters
@@ -708,7 +708,7 @@ class Domain():
 
     def plot_desired_velocity(self,
             destination_name, step=10, scale=10, scale_units='inches', id=1,
-            title="", savefig=False, filename='fig.png', dpi = 150):
+            title="", savefig=True, filename='Velfig.png', dpi = 150):
         """To plot the desired velocity
 
         Parameters
