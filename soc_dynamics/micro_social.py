@@ -379,7 +379,77 @@ for i,peopledom in enumerate(json_people_init):
                     savefig=True, filename=prefix+dom.name+'_fig_'+ \
                     str(counter).zfill(6)+'.png')
     all_people[peopledom["domain"]] = people
-#print("===> All people = ",all_people)
+
+print("===> All people = ",all_people)
+### ADDED
+# import time
+
+n_new = 15
+new_group = [{
+          "nb": n_new,
+          "radius_distribution": ["uniform",0.14,0.16],
+          "velocity_distribution": ["normal",1,0.1],
+          "box": [20.1,31.06,0.1,15.28],
+          "box": [8.69, 11.59, 1.47, 2.85],
+          "destination": "door"
+        }]
+
+# new_people = people_initialization(dom, new_group, dt, dmin_people=dmin_people, 
+#     dmin_walls=dmin_walls, seed=seed, itermax=10, projection_method=projection_method,
+#     verbose=True)
+# I_n, J_n, Vd_n = dom.people_desired_velocity(new_people["xyrv"], new_people["destinations"])
+# new_people["Vd"] = Vd_n
+# for ip,pid in enumerate(new_people["id"]):
+#     new_people["paths"][pid] = new_people["xyrv"][ip,:2]
+# if (with_graphes):
+#     colors = people["xyrv"][:,2]
+#     plot_people(100*i+20, dom, new_people, contacts, colors, time=t,
+#             plot_people=plot_p, plot_contacts=plot_c,
+#             plot_velocities=plot_v, plot_desired_velocities=plot_vd,
+#             plot_sensors=plot_s, sensors=all_sensors[dom.name],
+#             savefig=True, filename=prefix+dom.name+'_fig_'+ \
+#             str(counter).zfill(6)+'.png')
+
+# for pd in all_people:
+#     obsolete = ['paths', 'rng', 'last_id']
+#     keys = list(all_people[pd].keys())
+#     for obs in obsolete:
+#         keys.remove(obs)
+#     print(keys)
+
+#     for key in keys:
+#         print(key, 'is of type: ', type(all_people[pd][key]))
+
+
+#     # print('TESTING PATH', all_people[pd]['paths'])
+#     print('TESTING RNG', all_people[pd]['rng'])
+#     print('TESTING Last ID', all_people[pd]['last_id'])
+
+#     for key in keys:
+#         old = all_people[pd][key]
+#         add = new_people[key]
+#         print(key, np.shape(old), np.shape(add))
+
+#         new_arr = np.append(old, add, axis=0)
+#         print(key, np.shape(new_arr))
+#         all_people[pd][key] = new_arr
+#         # print('DEBUG: WHAT IS KEY? ', key, all_people[pd][key])
+#         # print('DEBUG: WHAT IS KEY? ', key, new_people[key][0:])
+#         # all_people[pd][key] = np.append(all_people[pd][key], new_people[key], axis=0)
+#         # TEST = all_people[pd][key]
+#         # print(type(TEST))
+#         # TEST.append([1, 2, 3, 4])
+#         # print('test: ', TEST)
+#         # all_people[pd][key] = all_people[pd][key].append([1, 2, 3, 4])
+# # all_people[peopledom["domain"]] = people
+
+# print('All people: ', all_people)
+# print('Currently in sys: ', all_people["test_a"]["xyrv"].shape[0])
+# print("DEBUG: WE END HERE")
+# time.sleep(5)
+
+# exit()
+### END ADDED
 
 """
     Main loop
@@ -387,6 +457,7 @@ for i,peopledom in enumerate(json_people_init):
 
 cc = 0
 draw = True
+adding = True
 
 while (t<Tf):
 
@@ -482,6 +553,69 @@ while (t<Tf):
     for idom,name in enumerate(domains):
         print("===> Domain ",name," nb of persons = ",
             all_people[name]["xyrv"].shape[0])
+
+    # Temporal addition:
+    if t >= 0.5 and adding == True:
+        print("Adding :)")
+        new_people = people_initialization(dom, new_group, dt, dmin_people=dmin_people, 
+                    dmin_walls=dmin_walls, seed=seed, itermax=10, projection_method=projection_method,
+                    verbose=True)
+        I_n, J_n, Vd_n = dom.people_desired_velocity(new_people["xyrv"], new_people["destinations"])
+        new_people["Vd"] = Vd_n
+        new_people["I"] = I_n
+        new_people["J"] = J_n
+        for ip,pid in enumerate(new_people["id"]):
+            new_people["paths"][pid] = new_people["xyrv"][ip,:2]
+        if (with_graphes):
+            colors = people["xyrv"][:,2]
+            plot_people(100*i+20, dom, new_people, contacts, colors, time=t,
+                plot_people=plot_p, plot_contacts=plot_c,
+                plot_velocities=plot_v, plot_desired_velocities=plot_vd,
+                plot_sensors=plot_s, sensors=all_sensors[dom.name],
+                savefig=True, filename=prefix+dom.name+'_fig_'+ \
+                str(counter).zfill(6)+'.png')
+
+        for pd in all_people:
+            obsolete = ['paths', 'rng', 'last_id']
+            keys = list(all_people[pd].keys())
+            for obs in obsolete:
+                keys.remove(obs)
+            print(keys)
+
+        for key in keys:
+            print(key, 'is of type: ', type(all_people[pd][key]))
+
+
+    # print('TESTING PATH', all_people[pd]['paths'])
+    # print('TESTING RNG', all_people[pd]['rng'])
+    # print('TESTING Last ID', all_people[pd]['last_id'])
+
+        for key in keys:
+            print(keys)
+            old = all_people[pd][key]
+            add = new_people[key]
+            print(key, np.shape(old), np.shape(add))
+
+            new_arr = np.append(old, add, axis=0)
+            print(key, np.shape(new_arr))
+            all_people[pd][key] = new_arr
+        adding = False
+
+        # print('DEBUG: WHAT IS KEY? ', key, all_people[pd][key])
+        # print('DEBUG: WHAT IS KEY? ', key, new_people[key][0:])
+        # all_people[pd][key] = np.append(all_people[pd][key], new_people[key], axis=0)
+        # TEST = all_people[pd][key]
+        # print(type(TEST))
+        # TEST.append([1, 2, 3, 4])
+        # print('test: ', TEST)
+        # all_people[pd][key] = all_people[pd][key].append([1, 2, 3, 4])
+# all_people[peopledom["domain"]] = people
+
+# print('All people: ', all_people)
+# print('Currently in sys: ', all_people["test_a"]["xyrv"].shape[0])
+# print("DEBUG: WE END HERE")
+
+
 
     t += dt
     cc += 1

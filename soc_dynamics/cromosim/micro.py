@@ -674,6 +674,7 @@ def create_people_in_box(nn, box, dest_name, radius_distribution,
         normVd = Vd[:,0]**2+Vd[:,1]**2
         ind = np.where(normVd==0)[0]
         if (ind.shape[0]>0):
+            print('here now')
             xyrv[ind,0] = rng.uniform(xmin+p_rmax, xmax-p_rmax, ind.shape[0])
             xyrv[ind,1] = rng.uniform(ymin+p_rmax, ymax-p_rmax, ind.shape[0])
         else:
@@ -735,7 +736,7 @@ def check_people_in_box(dom, box, xyrv, dest_names, rng, verbose=True):
             test2 = (xyrv[:,0]>xmin+p_rmax)*(xyrv[:,0]<xmax-p_rmax) \
                   *(xyrv[:,1]>ymin+p_rmax)*(xyrv[:,1]<ymax-p_rmax) \
                   *(normVd>0)
-                  print("This is test2: ", test2)
+            print("This is test2: ", test2)
             ind2 = np.where(test2==0)[0]
             if (ind2.shape[0]>0):
                 if (verbose):
@@ -898,6 +899,8 @@ def people_initialization(dom, groups, dt, dmin_people=0, dmin_walls=0,
                                   gp["radius_distribution"],
                                   gp["velocity_distribution"],
                                   dom, rng, verbose=verbose)
+        print('Create is finished')
+
         pp = remove_overlaps_in_box(dom, gp["box"], pp,
                                     pp_dest, dt, rng,
                                     dmin_people=dmin_people,
