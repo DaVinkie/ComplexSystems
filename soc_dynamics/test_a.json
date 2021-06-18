@@ -63,6 +63,16 @@
       ]
     }
   ],
+  "new_groups":[
+    {
+      "nb": 15,
+      "radius_distribution": ["uniform",0.14,0.16],
+      "velocity_distribution": ["normal",1,0.1],
+      "box": [20.1,31.06,0.1,15.28],
+      "box": [8.69, 11.59, 1.47, 2.85],
+      "destination": "door"
+    }
+  ],
   "sensors":[
     {
       "name": "sensor1",
@@ -78,9 +88,9 @@
   "prefix":"results/",
   "seed":40,
   "with_graphes": true,
-  "Tf":2.0,
+  "Tf":32.0,
   "dt":0.005,
-  "drawper":5,
+  "drawper":50,
   "mass":80.0,
   "tau":0.5,
   "F":2000.0,
@@ -98,5 +108,6 @@
   "plot_desired_velocities":false,
   "plot_velocities":false,
   "plot_paths":false,
-  "plot_sensors":true
+  "plot_sensors":true,
+  "addper":5.0
 }
