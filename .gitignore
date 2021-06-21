@@ -1,0 +1,4 @@
+.spyproject
+soc_dynamics/results/*
+soc_dynamics/__pycache__/*
+soc_dynamics/cromosim/__pycache__/*
