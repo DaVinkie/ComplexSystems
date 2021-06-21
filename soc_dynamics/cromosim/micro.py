@@ -674,7 +674,6 @@ def create_people_in_box(nn, box, dest_name, radius_distribution,
         normVd = Vd[:,0]**2+Vd[:,1]**2
         ind = np.where(normVd==0)[0]
         if (ind.shape[0]>0):
-            print('here now')
             xyrv[ind,0] = rng.uniform(xmin+p_rmax, xmax-p_rmax, ind.shape[0])
             xyrv[ind,1] = rng.uniform(ymin+p_rmax, ymax-p_rmax, ind.shape[0])
         else:

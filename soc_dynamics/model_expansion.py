@@ -57,6 +57,12 @@ def add_people(input, dom, people, seed):
 		new_arr = np.append(old, add, axis=0)
 		people[dom_name][key] = new_arr
 
+	people[dom_name]["xyrv"] = remove_overlaps_in_box(dom, [dom.xmin, dom.xmax, dom.ymin, dom.ymax],
+                                    people[dom_name]["xyrv"], people[dom_name]["destinations"], dt, people[dom_name]["rng"],
+                                    dmin_people=dmin_people,
+                                    dmin_walls=dmin_walls,
+                                    projection_method=projection_method, verbose=False)
+
 	for pth in new_people["paths"]:
 		people[dom_name]["paths"][pth] = new_people["paths"][pth]
 
@@ -76,12 +82,12 @@ def export_data(sensors, output_dir, file_name):
     file_name:
         name of the file
 	"""
-    for s in range(len(sensors["room"])):
+    for s in range(len(sensors["test_a2"])):
         with open(output_dir + "/" + file_name + "_sensor_" + str(s) + '.csv', 'w', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(["Time"])
         
-            time_list = sensors["room"][s]["times"]
+            time_list = sensors["test_a2"][s]["times"]
         
             for i in range(len(time_list)):
                 writer.writerow([time_list[i]])
