@@ -7,12 +7,16 @@
 #
 # License: GPL
 
-import csv
+
 import sys, os
 from cromosim import *
 from cromosim.micro import *
 from optparse import OptionParser
 import json
+
+# Extra necessary imports
+from model_expansion import *
+import csv
 
 plt.ion()
 
@@ -254,6 +258,13 @@ print("===> ONLY used during initialization ! Minimal distance between \
 print("===> ONLY used during initialization ! Minimal distance between a \
        person and a wall, dmin_walls = ",dmin_walls)
 
+### ADDED BY US: ##################################
+if input["addper"]:
+    add_per = input["addper"]
+else: 
+    add_per = None
+###################################################
+
 """
     Build the Domain objects
 """
@@ -379,7 +390,8 @@ for i,peopledom in enumerate(json_people_init):
                     savefig=True, filename=prefix+dom.name+'_fig_'+ \
                     str(counter).zfill(6)+'.png')
     all_people[peopledom["domain"]] = people
-#print("===> All people = ",all_people)
+
+# print("===> All people = ",all_people)
 
 """
     Main loop
@@ -387,6 +399,11 @@ for i,peopledom in enumerate(json_people_init):
 
 cc = 0
 draw = True
+
+### ADDED BY US: ##################################
+adding = False
+
+###################################################
 
 while (t<Tf):
 
@@ -483,6 +500,18 @@ while (t<Tf):
         print("===> Domain ",name," nb of persons = ",
             all_people[name]["xyrv"].shape[0])
 
+### ADDED BY US: ######################################
+    # Temporal addition:
+    if adding:
+        all_people = add_people(input, dom, all_people)
+
+
+    if t >= add_per and (t % add_per) <= dt:
+        adding = True
+    else:
+        adding = False
+
+#######################################################
     t += dt
     cc += 1
     counter += 1
@@ -518,8 +547,8 @@ with open('throuput.csv', 'w', encoding='UTF8', newline='') as f:
 
 for idom,domain_name in enumerate(all_sensors):
     print("===> Plot sensors of domain ",domain_name)
-    plot_sensors(100*idom+40, all_sensors[domain_name], t, savefig=True,
-                filename=prefix+'sensor_'+str(i)+'_'+str(counter)+'.png')
+    # plot_sensors(100*idom+40, all_sensors[domain_name], t, savefig=True,
+                # filename=prefix+'sensor_'+str(i)+'_'+str(counter)+'.png')
     plt.pause(0.01)
 
 plt.ioff()
