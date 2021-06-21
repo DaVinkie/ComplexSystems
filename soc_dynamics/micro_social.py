@@ -547,8 +547,7 @@ with open('throuput.csv', 'w', encoding='UTF8', newline='') as f:
 
 for idom,domain_name in enumerate(all_sensors):
     print("===> Plot sensors of domain ",domain_name)
-    # plot_sensors(100*idom+40, all_sensors[domain_name], t, savefig=True,
-                # filename=prefix+'sensor_'+str(i)+'_'+str(counter)+'.png')
+    plot_sensors(100*idom+40, all_sensors[domain_name], t, savefig=True, filename=prefix+'sensor_'+str(i)+'_'+str(counter)+'.png')
     plt.pause(0.01)
 
 plt.ioff()
