@@ -2,3 +2,9 @@
 soc_dynamics/results/*
 soc_dynamics/__pycache__/*
 soc_dynamics/cromosim/__pycache__/*
+results/
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user

@@ -522,29 +522,9 @@ while (t<Tf):
     else:
         draw = False
 
-## Trial part of the code for storing throughput
-
-header = ['Throughput', "Time"]
-
-with open('throuput.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-    
-    writer.writerow(header)
-    
-    time_list = []
-    time_list.extend(all_sensors["room"][0]["times"])
-    for i in range(len(time_list)-1):
-        l = []
-        l_data_1 = time_list[i]
-        l_data_2 = time_list[i+1]
-        l_diff = l_data_2 - l_data_1
-        l.extend([1/l_diff])
-        l.extend([i+1])
-        writer.writerow(l)
-        print(l)
-        print("\n")
-
-    
+### ADDED BY US: ######################################
+export_data(all_sensors, output_dir, str(loop))
+#######################################################
 
 for idom,domain_name in enumerate(all_sensors):
     print("===> Plot sensors of domain ",domain_name)

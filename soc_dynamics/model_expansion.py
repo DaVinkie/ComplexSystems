@@ -1,5 +1,6 @@
 from cromosim import *
 from cromosim.micro import *
+import csv
 
 def add_people(input, dom, people, seed):
 	"""
@@ -62,3 +63,27 @@ def add_people(input, dom, people, seed):
 	people[dom_name]["last_id"] = dom_name+'_'+str(people[dom_name]["xyrv"].shape[0]-1)
 
 	return people
+
+def export_data(sensors, output_dir, file_name):
+    """
+	When function is called, save collected data as csv.
+
+	Parameters::
+	sensors: senosors
+        sensors object containing the data to be exported
+	output_dir: 
+        location of the file to written
+    file_name:
+        name of the file
+	"""
+    for s in range(len(sensors["room"])):
+        with open(output_dir + "/" + file_name + "_sensor_" + str(s) + '.csv', 'w', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(["Time"])
+        
+            time_list = sensors["room"][s]["times"]
+        
+            for i in range(len(time_list)):
+                writer.writerow([time_list[i]])
+    
+    
