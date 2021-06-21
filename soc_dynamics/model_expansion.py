@@ -1,7 +1,7 @@
 from cromosim import *
 from cromosim.micro import *
 
-def add_people(input, dom, people):
+def add_people(input, dom, people, seed):
 	"""
 	When function is called, add agents to the model.
 
@@ -19,7 +19,7 @@ def add_people(input, dom, people):
 	dt = input["dt"]
 	dmin_people = input["dmin_people"]
 	dmin_walls = input["dmin_walls"]
-	seed = input["seed"]
+	# seed = input["seed"]
 	projection_method = input["projection_method"]
 	dom_name = dom.name
 

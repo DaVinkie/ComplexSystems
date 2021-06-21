@@ -503,7 +503,8 @@ while (t<Tf):
 ### ADDED BY US: ######################################
     # Temporal addition:
     if adding:
-        all_people = add_people(input, dom, all_people)
+        seed += 1
+        all_people = add_people(input, dom, all_people, seed)
 
 
     if t >= add_per and (t % add_per) <= dt:
