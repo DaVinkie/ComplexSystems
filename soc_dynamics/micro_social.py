@@ -20,6 +20,11 @@ import csv
 
 plt.ion()
 
+
+# data save settings
+output_dir  = "results"
+loop        = 1
+
 """
     python micro_social.py --json input.json
 """
