@@ -9,24 +9,14 @@
       "wall_colors":[ [0,0,0] ],
       "shape_lines":[
         {
-          "xx": [18.15,19.56],
-          "yy": [35.4,35.4],
-          "xx": [10.0, 11.0],
-          "yy": [6.46, 6.5],
-          "linewidth": 8,
-          "xx": [10.18, 10.18],
-          "yy": [1.14, 2.14],
-          "linewidth": 10,
+          "xx"           : [11.30, 11.30],
+          "yy"           : [1.30, 2.30],
+          "linewidth"    : 10,
           "outline_color": [255,0,0],
-          "fill_color": [255,0,0]
+          "fill_color"   : [255,0,0]
         },
         {
-          "xx": [18.15,19.56],
-          "yy": [35.4,35.4],
-          "xx": [10.0, 11.0],
-          "yy": [6.46, 6.5],
-          "linewidth": 5,
-          "xx": [0.19, 0.19],
+         "xx": [0.19, 0.19],
           "yy": [1.14, 2.14],
           "linewidth": 10,
           "outline_color": [255,0,255],
@@ -71,11 +61,8 @@
       "groups": [
         {
           "nb": 15,
-          "radius_distribution": ["uniform",0.14,0.16],
-          "velocity_distribution": ["normal",1.4,0.4],
           "radius_distribution": ["uniform",0.185,0.215],
           "velocity_distribution": ["normal",1.6,0.3],
-          "box": [20.1,31.06,0.1,15.28],
           "box": [1, 2.5, 0.33, 3],
           "destination": "door"
         }
@@ -85,10 +72,8 @@
   "new_groups":[
     {
       "nb": 5,
-      "radius_distribution": ["uniform",0.14,0.16],
-      "velocity_distribution": ["normal",1,0.1],
       "radius_distribution": ["uniform",0.185,0.215],
-      "velocity_distribution": ["normal",1.6,0.3],
+      "velocity_distribution": ["normal",1.6, 0.3],
       "box": [0.27, 1,0.63, 3],
       "destination": "door"
     }
@@ -110,7 +95,7 @@
   "with_graphes": true,
   "Tf":120.0,
   "dt":0.005,
-  "drawper":100,
+  "drawper":50,
   "mass":80.0,
   "tau":0.5,
   "F":2000.0,
@@ -129,5 +114,8 @@
   "plot_velocities":false,
   "plot_paths":false,
   "plot_sensors":true,
-  "addper":1.0
+  "addper":4.0,
+  "slowdown": 0.1,
+  "sd_period": 4,
+  "n_slowdown": 2
 }

@@ -55,8 +55,9 @@ for i in range(len(input["people_init"][0]["groups"])):
 for i in range(len(input["new_groups"])):
     input["new_groups"][i]["velocity_distribution"][2] = new_std
 # make sure no plotting happens
-input["with_graphes"] = False
-    
+input["with_graphes"] = True
+
+
 """
     Get parameters from json file :
     prefix: string
@@ -278,6 +279,23 @@ if input["addper"]:
     add_per = input["addper"]
 else: 
     add_per = None
+
+if input["slowdown"]:
+    slowdown = input["slowdown"]
+    slowed_people = {}
+else:
+    slowdown = None
+
+if input["sd_period"]:
+    duration = input["sd_period"]
+else:
+    duration = None
+
+if input["n_slowdown"]:
+    n_slowdown = input["n_slowdown"]
+else:
+    n_slowdown = None
+
     
 ###################################################
 
@@ -430,9 +448,11 @@ while (t<Tf):
         print("===> Compute desired velocity for domain ",name)
         dom = domains[name]
         people = all_people[name]
+        print("DEB: Before: ", people["Vd"])
         I, J, Vd = dom.people_desired_velocity(people["xyrv"],
             people["destinations"])
         people["Vd"] = Vd
+        print("DEB: After: ", people["Vd"])
         people["I"] = I
         people["J"] = J
 
@@ -529,6 +549,20 @@ while (t<Tf):
     else:
         adding = False
 
+    # People randomly slowing down
+    if slowdown and len(list(slowed_people)) < 3:
+        print("Before slowing: ", all_people["test_a"]["Vd"])
+        all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
+        all_people, slowed_people = slowdown_velocity(dom, all_people, slowed_people, n_slowdown, seed, slowdown, duration)
+        print("After slowing: ", all_people["test_a"]["Vd"])
+    else: 
+        # pass
+        all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
+
+
+    print("Speed of slowed down people: \n")
+    for sd in slowed_people:
+        print(str(sd), all_people["test_a"]["Vd"][int(sd)])
 #######################################################
     t += dt
     cc += 1

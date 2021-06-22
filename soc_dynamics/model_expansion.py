@@ -1,6 +1,7 @@
 from cromosim import *
 from cromosim.micro import *
 import csv
+import numpy as np
 
 def add_people(input, dom, people, seed):
 	"""
@@ -99,3 +100,75 @@ def column(matrix, i):
 def people_at_spawn(people):
     return(sum(x < 3 for x in column(people["xyrv"], 0)))
 
+def slowdown_velocity(dom, people, slowed_people, nn=3, seed=0, slowdown=0.1, duration=5):
+	"""
+	At certain time points, a random selection of agents get their desired velocity slowed
+	down.
+	
+	"""
+	dom_name = dom.name
+	n_people = people[dom_name]["xyrv"].shape[0]
+
+	if (seed > 0):
+		rng = np.random.RandomState(seed)
+	else:
+		rng = np.random.RandomState()
+
+	# Select a random group from agents in model
+	vd_selection = []
+	selection = rng.randint(0, n_people, nn)
+	selection = np.unique(selection)
+
+	# Keep track of separate list to prevent agents from being doubly slowed down.
+	# Instead, the duration is reset.
+	for s in selection:
+		if str(s) not in list(slowed_people):
+			vd_selection.append(s)
+
+	print("Slowing down: ", vd_selection)
+
+	# Slow down agents their desired velocity
+	# Vd = people[dom_name]["Vd"]
+	# Vd[vd_selection] = Vd[vd_selection]*slowdown
+	# people[dom_name]["Vd"] = Vd
+
+	# U = people[dom_name]["U"]
+	# U[vd_selection] = U[vd_selection]*slowdown
+	# people[dom_name]["U"] = U
+
+	# Vd = people[dom_name]["Vd"]
+	# Vd[vd_selection] = np.array([0.0, 0.0])
+	# people[dom_name]["Vd"] = Vd
+
+	# U = people[dom_name]["U"]
+	# U[vd_selection] = np.array([0.0, 0.0])
+	# people[dom_name]["U"] = U
+
+	v_calc = people[dom_name]["xyrv"][vd_selection, 3] * slowdown
+
+	people[dom_name]["xyrv"][vd_selection, 3] = v_calc
+
+
+	for p in selection:
+		des_vd = people[dom_name]["Vd"][p]
+		slowed_people[str(p)] = [duration, des_vd]
+
+	return people, slowed_people
+
+def adjust_velocity(dom, people, slowed_people, dt=0.005, slowdown=0.1):
+	"""
+
+	"""
+	dom_name = dom.name
+	print("slowed_people: ", slowed_people)
+	for sp in slowed_people.copy():
+		print(slowed_people[sp])
+		print('Vd: ', sp, people[dom_name]["Vd"][int(sp)])
+		if slowed_people[sp][0] <= 0.0:
+			people[dom_name]["xyrv"][int(sp), 3] = people[dom_name]["xyrv"][int(sp), 3] * (1/slowdown)
+			print("REMOVING: ", sp)
+			del(slowed_people[sp])
+		else:
+			slowed_people[sp][0] -= dt 
+
+	return people, slowed_people
