@@ -296,6 +296,11 @@ if input["n_slowdown"]:
 else:
     n_slowdown = None
 
+if input["slow_per"]:
+    slow_per = input["slow_per"]
+else:
+    slow_per = None
+
     
 ###################################################
 
@@ -436,6 +441,7 @@ draw = True
 
 ### ADDED BY US: ##################################
 adding = False
+slowing = False
 
 ###################################################
 
@@ -448,11 +454,11 @@ while (t<Tf):
         print("===> Compute desired velocity for domain ",name)
         dom = domains[name]
         people = all_people[name]
-        print("DEB: Before: ", people["Vd"])
+        # print("DEB: Before: ", people["Vd"])
         I, J, Vd = dom.people_desired_velocity(people["xyrv"],
             people["destinations"])
         people["Vd"] = Vd
-        print("DEB: After: ", people["Vd"])
+        # print("DEB: After: ", people["Vd"])
         people["I"] = I
         people["J"] = J
 
@@ -550,14 +556,21 @@ while (t<Tf):
         adding = False
 
     # People randomly slowing down
-    if slowdown and (len(list(slowed_people)) <3):
-        print("Before slowing: ", all_people["test_a"]["Vd"])
+    if slowing and (len(list(slowed_people)) <3):
         all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
         all_people, slowed_people = slowdown_velocity(dom, all_people, slowed_people, n_slowdown, seed, slowdown, duration)
-        print("After slowing: ", all_people["test_a"]["Vd"])
+        print(">>> SLOWING DOWN THE FOLLOWING PEOPLE: ", slowed_people)
     else: 
-        # pass
         all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
+
+    if t >= slow_per and (t % slow_per) <= dt:
+        slowing = True
+    else:
+        slowing = False
+
+        
+        # print("After slowing: ", all_people["test_a"]["Vd"])
+    
 #######################################################
     t += dt
     cc += 1

@@ -117,5 +117,6 @@
   "addper":4.0,
   "slowdown": 0.2,
   "sd_period": 3,
-  "n_slowdown": 1
+  "n_slowdown": 10,
+  "slow_per": 3.0
 }

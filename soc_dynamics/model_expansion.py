@@ -140,17 +140,17 @@ def adjust_velocity(dom, people, slowed_people, dt=0.005, slowdown=0.1):
 
 	"""
 	dom_name = dom.name
-	print(list(slowed_people))
+	# print(list(slowed_people))
 	for sp in slowed_people.copy():
 		if sp not in people[dom_name]["id"]:
 			del(slowed_people[sp])
 			break
 		if slowed_people[sp] <= 0.0:
-			print(people[dom_name]["id"], list(slowed_people))
-			print(np.where(people[dom_name]["id"] == sp))
+			# print(people[dom_name]["id"], list(slowed_people))
+			# print(np.where(people[dom_name]["id"] == sp))
 			ind = np.where(people[dom_name]["id"] == sp)[0][0]
 			people[dom_name]["xyrv"][ind, 3] = people[dom_name]["xyrv"][ind, 3] * (1/slowdown)
-			print("REMOVING: ", sp, 'at index ', ind)
+			# print("REMOVING: ", sp, 'at index ', ind)
 			del(slowed_people[sp])
 		else:
 			slowed_people[sp] -= dt 
