@@ -21,16 +21,20 @@ import csv
 plt.ion()
 
 
-# data save settings
-output_dir  = "results"
+# some extracted settings
+map_condition = "../Maps_with_obstacles/Corridor_unidirectional/a0.png"
+map_settings  = "../Maps_with_obstacles/Corridor_unidirectional/settings_a.json"
+output_dir  = "results/"
 loop        = 1
+new_std     = 0
+seed        = 0
 
 """
     python micro_social.py --json input.json
 """
 parser = OptionParser(usage="usage: %prog [options] filename",
     version="%prog 1.0")
-parser.add_option('--json',dest="jsonfilename",default="input_temp.json",
+parser.add_option('--json',dest="jsonfilename",default=map_settings,
     type="string",
                   action="store",help="Input json filename")
 opt, remainder = parser.parse_args()
@@ -45,6 +49,14 @@ with open(opt.jsonfilename) as json_file:
             (https://fr.wikipedia.org/wiki/JavaScript_Object_Notation)")
         sys.exit()
 
+# overwrite the defaults std
+for i in range(len(input["people_init"][0]["groups"])):
+    input["people_init"][0]["groups"][i]["velocity_distribution"][2] = new_std
+for i in range(len(input["new_groups"])):
+    input["new_groups"][i]["velocity_distribution"][2] = new_std
+# make sure no plotting happens
+input["with_graphes"] = False
+    
 """
     Get parameters from json file :
     prefix: string
@@ -218,11 +230,9 @@ with open(opt.jsonfilename) as json_file:
     plot_paths: boolean
         If true, people paths are drawn
 """
-
-prefix = input["prefix"]
+prefix = output_dir
 if not os.path.exists(prefix):
     os.makedirs(prefix)
-seed = input["seed"]
 with_graphes = input["with_graphes"]
 json_domains = input["domains"]
 #print("===> JSON data used to build the domains : ",json_domains)
@@ -268,6 +278,7 @@ if input["addper"]:
     add_per = input["addper"]
 else: 
     add_per = None
+    
 ###################################################
 
 """
@@ -277,7 +288,7 @@ domains = {}
 for i,jdom in enumerate(json_domains):
     jname = jdom["name"]
     print("===> Build domain number ",i," : ",jname)
-    jbg = jdom["background"]
+    jbg = map_condition
     jpx = jdom["px"]
     jwidth = jdom["width"]
     jheight = jdom["height"]
@@ -507,9 +518,10 @@ while (t<Tf):
 
 ### ADDED BY US: ######################################
     # Temporal addition:
-    if adding:
-        seed += 1
-        all_people = add_people(input, dom, all_people, seed)
+    if(people_at_spawn(all_people[name]) < 20):
+        if adding:
+            seed += 1
+            all_people = add_people(input, dom, all_people, seed)
 
 
     if t >= add_per and (t % add_per) <= dt:

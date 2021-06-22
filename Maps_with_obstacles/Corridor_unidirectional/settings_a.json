@@ -68,7 +68,7 @@
       "line"   : [10.50, 1.30, 10.50, 2.30]
     }
   ],
-  "with_graphes"     : false,
+  "with_graphes"     : true,
   "Tf"               : 100.0,
   "dt"               : 0.005,
   "drawper"          : 100,
