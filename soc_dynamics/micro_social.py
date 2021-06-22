@@ -556,7 +556,7 @@ while (t<Tf):
         adding = False
 
     # People randomly slowing down
-    if slowing and (len(list(slowed_people)) <3):
+    if slowing:
         all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
         all_people, slowed_people = slowdown_velocity(dom, all_people, slowed_people, n_slowdown, seed, slowdown, duration)
         print(">>> SLOWING DOWN THE FOLLOWING PEOPLE: ", slowed_people)

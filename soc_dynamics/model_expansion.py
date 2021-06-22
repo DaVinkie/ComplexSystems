@@ -104,6 +104,22 @@ def slowdown_velocity(dom, people, slowed_people, nn=3, seed=0, slowdown=0.1, du
 	"""
 	At certain time points, a random selection of agents get their desired velocity slowed
 	down.
+
+	Parameters::
+	dom: Domain
+		Has the domain info.
+	people: dict
+		Has info on the agents in the model.
+	slowed_people: dict
+		Keeps track of the agents that are currently slowed down.
+	nn:	int
+		Amount of agents that need to be slowed down.
+	seed: int
+		Sets the random number state.
+	slowdown: float between 0 and 1
+		Percentage of the velocity agents need to be slowed down to.
+	duration: float
+		Duration of the slowing down period in seconds.
 	
 	"""
 	dom_name = dom.name
@@ -137,20 +153,31 @@ def slowdown_velocity(dom, people, slowed_people, nn=3, seed=0, slowdown=0.1, du
 
 def adjust_velocity(dom, people, slowed_people, dt=0.005, slowdown=0.1):
 	"""
+	For the slowed down agents in the model, either reset them or adjust the remaining duration.
 
+
+	Parameters::
+	dom: Domain
+		Has the domain info.
+	people: dict
+		Has info on the agents in the model.
+	slowed_people: dict
+		Keeps track of the agents that are currently slowed down.
+	dt:	float
+		Step size of the duration adjustment.
+	slowdown: float between 0 and 1
+		Percentage of the velocity agents need to be slowed down to. Is inverted 
+		to reset the original walking speed.
+	
 	"""
 	dom_name = dom.name
-	# print(list(slowed_people))
 	for sp in slowed_people.copy():
 		if sp not in people[dom_name]["id"]:
 			del(slowed_people[sp])
 			break
 		if slowed_people[sp] <= 0.0:
-			# print(people[dom_name]["id"], list(slowed_people))
-			# print(np.where(people[dom_name]["id"] == sp))
 			ind = np.where(people[dom_name]["id"] == sp)[0][0]
 			people[dom_name]["xyrv"][ind, 3] = people[dom_name]["xyrv"][ind, 3] * (1/slowdown)
-			# print("REMOVING: ", sp, 'at index ', ind)
 			del(slowed_people[sp])
 		else:
 			slowed_people[sp] -= dt 
