@@ -550,7 +550,7 @@ while (t<Tf):
         adding = False
 
     # People randomly slowing down
-    if slowdown and len(list(slowed_people)) < 3:
+    if slowdown and (len(list(slowed_people)) <3):
         print("Before slowing: ", all_people["test_a"]["Vd"])
         all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
         all_people, slowed_people = slowdown_velocity(dom, all_people, slowed_people, n_slowdown, seed, slowdown, duration)
@@ -558,11 +558,6 @@ while (t<Tf):
     else: 
         # pass
         all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
-
-
-    print("Speed of slowed down people: \n")
-    for sd in slowed_people:
-        print(str(sd), all_people["test_a"]["Vd"][int(sd)])
 #######################################################
     t += dt
     cc += 1

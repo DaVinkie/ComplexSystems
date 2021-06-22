@@ -25,8 +25,6 @@ def add_people(input, dom, people, seed):
 	projection_method = input["projection_method"]
 	dom_name = dom.name
 
-	print(projection_method)
-
 	# Initialize a new group of agents
 	new_people = people_initialization(dom, target_group, dt, dmin_people=dmin_people, 
 					dmin_walls=dmin_walls, seed=seed, itermax=10, projection_method=projection_method,
@@ -37,10 +35,11 @@ def add_people(input, dom, people, seed):
 	new_people["J"] = J_n
 
 	# Adjust the IDs of the created agents
-	last_id = people[dom_name]["xyrv"].shape[0]
+	last_ind = people[dom_name]["xyrv"].shape[0]
+	# last_ind = int(people[dom_name]["last_id"])+1
 	new_people["id"] = np.char.add([dom.name+'_']*new_people["xyrv"].shape[0], 
-		(np.arange(new_people["xyrv"].shape[0])+last_id).astype('<U3'))
-
+		(np.arange(new_people["xyrv"].shape[0])+last_ind).astype('<U3'))
+	
 	# Generate path starting points for created agents
 	for ip,pid in enumerate(new_people["id"]):
 		new_people["paths"][pid] = new_people["xyrv"][ip,:2]
@@ -67,8 +66,9 @@ def add_people(input, dom, people, seed):
 	for pth in new_people["paths"]:
 		people[dom_name]["paths"][pth] = new_people["paths"][pth]
 
-	people[dom_name]["last_id"] = dom_name+'_'+str(people[dom_name]["xyrv"].shape[0]-1)
-
+	people[dom_name]["last_id"] = people[dom_name]["id"][-1]
+	# people[dom_name]["last_id"] = dom_name+'_'+str(people[dom_name]["xyrv"].shape[0]-1)
+	# people[dom_name]["last_id"] = str(int(people[dom_name]["last_id"]) + target_group["nb"])
 	return people
 
 def export_data(sensors, output_dir, file_name):
@@ -122,36 +122,16 @@ def slowdown_velocity(dom, people, slowed_people, nn=3, seed=0, slowdown=0.1, du
 	# Keep track of separate list to prevent agents from being doubly slowed down.
 	# Instead, the duration is reset.
 	for s in selection:
-		if str(s) not in list(slowed_people):
+		if people[dom_name]["id"][s] not in list(slowed_people):
 			vd_selection.append(s)
 
-	print("Slowing down: ", vd_selection)
-
 	# Slow down agents their desired velocity
-	# Vd = people[dom_name]["Vd"]
-	# Vd[vd_selection] = Vd[vd_selection]*slowdown
-	# people[dom_name]["Vd"] = Vd
-
-	# U = people[dom_name]["U"]
-	# U[vd_selection] = U[vd_selection]*slowdown
-	# people[dom_name]["U"] = U
-
-	# Vd = people[dom_name]["Vd"]
-	# Vd[vd_selection] = np.array([0.0, 0.0])
-	# people[dom_name]["Vd"] = Vd
-
-	# U = people[dom_name]["U"]
-	# U[vd_selection] = np.array([0.0, 0.0])
-	# people[dom_name]["U"] = U
-
 	v_calc = people[dom_name]["xyrv"][vd_selection, 3] * slowdown
-
 	people[dom_name]["xyrv"][vd_selection, 3] = v_calc
 
 
 	for p in selection:
-		des_vd = people[dom_name]["Vd"][p]
-		slowed_people[str(p)] = [duration, des_vd]
+		slowed_people[str(people[dom_name]["id"][p])] = duration
 
 	return people, slowed_people
 
@@ -160,15 +140,19 @@ def adjust_velocity(dom, people, slowed_people, dt=0.005, slowdown=0.1):
 
 	"""
 	dom_name = dom.name
-	print("slowed_people: ", slowed_people)
+	print(list(slowed_people))
 	for sp in slowed_people.copy():
-		print(slowed_people[sp])
-		print('Vd: ', sp, people[dom_name]["Vd"][int(sp)])
-		if slowed_people[sp][0] <= 0.0:
-			people[dom_name]["xyrv"][int(sp), 3] = people[dom_name]["xyrv"][int(sp), 3] * (1/slowdown)
-			print("REMOVING: ", sp)
+		if sp not in people[dom_name]["id"]:
+			del(slowed_people[sp])
+			break
+		if slowed_people[sp] <= 0.0:
+			print(people[dom_name]["id"], list(slowed_people))
+			print(np.where(people[dom_name]["id"] == sp))
+			ind = np.where(people[dom_name]["id"] == sp)[0][0]
+			people[dom_name]["xyrv"][ind, 3] = people[dom_name]["xyrv"][ind, 3] * (1/slowdown)
+			print("REMOVING: ", sp, 'at index ', ind)
 			del(slowed_people[sp])
 		else:
-			slowed_people[sp][0] -= dt 
+			slowed_people[sp] -= dt 
 
 	return people, slowed_people

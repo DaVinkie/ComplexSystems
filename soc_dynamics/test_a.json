@@ -93,7 +93,7 @@
   "prefix":"results/",
   "seed":40,
   "with_graphes": true,
-  "Tf":120.0,
+  "Tf":25,
   "dt":0.005,
   "drawper":50,
   "mass":80.0,
@@ -115,7 +115,7 @@
   "plot_paths":false,
   "plot_sensors":true,
   "addper":4.0,
-  "slowdown": 0.1,
-  "sd_period": 4,
-  "n_slowdown": 2
+  "slowdown": 0.2,
+  "sd_period": 3,
+  "n_slowdown": 1
 }
