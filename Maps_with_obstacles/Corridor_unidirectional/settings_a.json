@@ -8,7 +8,6 @@
       "wall_colors" : [ [0,0,0] ],
       "shape_lines" : [
         {
-          "linewidth"    : 8,
           "xx"           : [11.30, 11.30],
           "yy"           : [1.30, 2.30],
           "linewidth"    : 10,
