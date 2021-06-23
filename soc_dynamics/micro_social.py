@@ -26,7 +26,7 @@ map_condition = "../Maps_with_obstacles/Corridor_unidirectional/a0.png"
 map_settings  = "../Maps_with_obstacles/Corridor_unidirectional/settings_a.json"
 output_dir  = "results/"
 loop        = 1
-new_std     = 0
+new_std     = 0.3
 seed        = 0
 
 """
@@ -514,7 +514,7 @@ while (t<Tf):
 
         if (draw and with_graphes):
             ## coloring people according to their radius
-            colors =  all_people[name]["xyrv"][:,2]
+            colors =  all_people[name]["xyrv"][:,3]
             ## coloring people according to their destinations
             # colors = np.zeros(all_people[name]["xyrv"].shape[0])
             # for i,dest_name in enumerate(all_people[name]["destinations"]):
