@@ -59,7 +59,7 @@ while loop < len(settings):
     print(loop)
     
     # data settings
-    output_dir    = "../results/" + "a/" + str(settings["condition"][loop])
+    output_dir    = "../results/" + "a_stop/" + str(settings["condition"][loop])
     map_condition = "../Maps_with_obstacles/Corridor_unidirectional/a" + str(settings["condition"][loop]) + ".png"
     seed          = settings["seed"][loop]
     new_std       = settings["std"][loop]
@@ -70,7 +70,7 @@ while loop < len(settings):
     for i in range(len(input["new_groups"])):
         input["new_groups"][i]["velocity_distribution"][2] = new_std
     
-    with_graphes = input["with_graphes"]
+    with_graphes = False
     json_domains = input["domains"]
     #print("===> JSON data used to build the domains : ",json_domains)
     json_people_init = input["people_init"]
@@ -112,6 +112,28 @@ while loop < len(settings):
         add_per = input["addper"]
     else: 
         add_per = None
+    
+    # People randomly slowing down
+    if input["slowdown"]:
+        slowdown = input["slowdown"]
+        slowed_people = {}
+    else:
+        slowdown = None
+    
+    if input["sd_period"]:
+        duration = input["sd_period"]
+    else:
+        duration = None
+    
+    if input["n_slowdown"]:
+        n_slowdown = input["n_slowdown"]
+    else:
+        n_slowdown = None
+    
+    if input["slow_per"]:
+        slow_per = input["slow_per"]
+    else:
+        slow_per = None
     ###################################################
     
     """
@@ -251,7 +273,7 @@ while loop < len(settings):
     
     ### ADDED BY US: ##################################
     adding = False
-    
+    slowing = False
     ###################################################
     
     while (t<Tf):
@@ -351,7 +373,7 @@ while loop < len(settings):
     
     ### ADDED BY US: ######################################
         # Temporal addition:
-        if(people_at_spawn(all_people[name]) < 20):
+        if(people_at_spawn_a(all_people[name]) < 20):
             if adding:
                 seed += 1
                 all_people = add_people(input, dom, all_people, seed)
@@ -362,7 +384,20 @@ while loop < len(settings):
         else:
             adding = False
     
-    #######################################################
+        # People randomly slowing down
+        if slowing:
+            all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
+            all_people, slowed_people = slowdown_velocity(dom, all_people, slowed_people, n_slowdown, seed, slowdown, duration)
+            print(">>> SLOWING DOWN THE FOLLOWING PEOPLE: ", slowed_people)
+        else: 
+            all_people, slowed_people = adjust_velocity(dom, all_people, slowed_people, dt, slowdown)
+    
+        if t >= slow_per and (t % slow_per) <= dt:
+            slowing = True
+        else:
+            slowing = False
+
+
         t += dt
         cc += 1
         counter += 1
@@ -371,8 +406,11 @@ while loop < len(settings):
             cc = 0
         else:
             draw = False
-    
+    #######################################################
+        
+        
     ### ADDED BY US: ######################################
+    # save data at the end of the trial
     export_data(all_sensors, output_dir, str(loop))
     #######################################################
 
