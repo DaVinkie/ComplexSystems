@@ -8,6 +8,7 @@ import scipy as sp
 import sys
 import random
 import matplotlib
+import matplotlib.colors as clrs
 import matplotlib.pyplot as plt
 
 #from scipy.spatial import KDTree
@@ -1386,10 +1387,7 @@ def plot_people(ifig, dom, people, contacts, colors, time=-1, axis=None,
     ax1 = fig.add_subplot(111)
     # Domain
     ax1.imshow(dom.image,interpolation='nearest',
-                extent=[dom.xmin,dom.xmax,dom.ymin,dom.ymax], origin='lower',
-               ### Added these arguments to make the colormap static ###
-                # vmin=0.185, vmax=0.215) # Mapped to radius.
-                vmin=0.0, vmax=3.0) # Mapped to velocity.
+                extent=[dom.xmin,dom.xmax,dom.ymin,dom.ymax], origin='lower')
     if (plot_people):
         try:
             # People
@@ -1398,7 +1396,10 @@ def plot_people(ifig, dom, people, contacts, colors, time=-1, axis=None,
                                    heights=2*people["xyrv"][:,2],
                                    angles=0, units='xy',
                                    cmap=plt.get_cmap(cmap),
-                                   offsets=offsets, transOffset=ax1.transData)
+                                   offsets=offsets, transOffset=ax1.transData,
+                                   ### Added these arguments to make the colormap static ###
+
+                                   norm=clrs.Normalize(vmin=0.6, vmax=2.5, clip=True)) # Mapped to velocity
             ec.set_array(colors)
             ax1.add_collection(ec)
         except:

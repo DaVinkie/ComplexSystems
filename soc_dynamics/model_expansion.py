@@ -34,8 +34,9 @@ def add_people(input, dom, people, seed):
 	new_people["I"] = I_n
 	new_people["J"] = J_n
 
+	
 	# Adjust the IDs of the created agents
-	last_ind = people[dom_name]["xyrv"].shape[0]
+	last_ind = int(people[dom_name]["last_id"].split('_')[2]) + 1
 	# last_ind = int(people[dom_name]["last_id"])+1
 	new_people["id"] = np.char.add([dom.name+'_']*new_people["xyrv"].shape[0], 
 		(np.arange(new_people["xyrv"].shape[0])+last_ind).astype('<U3'))
