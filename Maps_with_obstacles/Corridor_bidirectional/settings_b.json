@@ -8,11 +8,20 @@
       "wall_colors" : [ [0,0,0] ],
       "shape_lines" : [
         {
-          "xx"           : [11.30, 11.30],
-          "yy"           : [1.30, 2.30],
+          "linewidth"    : 8,
+          "xx"           : [12.10, 12.10],
+          "yy"           : [0.50, 1.50],
           "linewidth"    : 10,
           "outline_color": [255,0,0],
           "fill_color"   : [255,0,0]
+        },
+        {
+          "linewidth"    : 8,
+          "xx"           : [0.40, 0.40],
+          "yy"           : [2.00, 3.00],
+          "linewidth"    : 10,
+          "outline_color": [0,255,0],
+          "fill_color"   : [0,255,0]
         }
       ],
       "shape_circles":[
@@ -25,8 +34,18 @@
       ],
       "destinations":[
         {
-          "name"             : "door",
+          "name"             : "door_g1",
           "colors"           : [[255,0,0]],
+          "excluded_colors"  : [[0,0,0]],
+          "desired_velocity_from_color":[],
+          "velocity_scale"   : 1,
+          "next_destination" : null,
+          "next_domain"      : null,
+          "next_transit_box" : null
+        },
+        {
+          "name"             : "door_g2",
+          "colors"           : [[0,255,0]],
           "excluded_colors"  : [[0,0,0]],
           "desired_velocity_from_color":[],
           "velocity_scale"   : 1,
@@ -42,29 +61,48 @@
       "domain": "room",
       "groups": [
         {
-          "nb"         : 15,
+          "nb"         : 6,
           "radius_distribution"   : ["uniform", 0.185, 0.215],
           "velocity_distribution" : ["normal",  1.600, "to be filled"],
-          "box"        : [1, 2.5, 0.33, 3],
-          "destination": "door"
-        }
+          "box"        : [1.5, 3.0, 0.5, 1.5],
+          "destination": "door_g1"
+        },
+        {
+          "nb"         : 6,
+          "radius_distribution"   : ["uniform", 0.185, 0.215],
+          "velocity_distribution" : ["normal",  1.600, "to be filled"],
+          "box"        : [9.4, 10.9, 2.0, 3.0],
+          "destination": "door_g2"
+        }        
       ]
     }
   ],
   "new_groups":[
     {
-      "nb"          : 5,
+      "nb"          : 4,
       "radius_distribution":   ["uniform", 0.185, 0.215],
       "velocity_distribution": ["normal",  1.600, "to be filled"],
-      "box"         : [0.27, 1,0.63, 3],
-      "destination" : "door"
+      "box"         : [1.5, 3.0, 0.5, 1.5],
+      "destination" : "door_g1"
+    },
+    {
+      "nb"          : 4,
+      "radius_distribution":   ["uniform", 0.185, 0.215],
+      "velocity_distribution": ["normal",  1.600, "to be filled"],
+      "box"         : [9.4, 10.9, 2.0, 3.0],
+      "destination" : "door_g2"
     }
   ],
   "sensors":[
     {
       "name"   : "sensor1",
       "domain" : "room",
-      "line"   : [10.50, 1.30, 10.50, 2.30]
+      "line"   : [11.50, 0.50, 11.50, 1.50]
+    },
+    {
+      "name"   : "sensor2",
+      "domain" : "room",
+      "line"   : [0.90, 2.00, 0.90, 3.00]
     }
   ],
   "with_graphes"     : true,
