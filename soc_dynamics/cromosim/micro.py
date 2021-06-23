@@ -1386,9 +1386,10 @@ def plot_people(ifig, dom, people, contacts, colors, time=-1, axis=None,
     ax1 = fig.add_subplot(111)
     # Domain
     ax1.imshow(dom.image,interpolation='nearest',
-               extent=[dom.xmin,dom.xmax,dom.ymin,dom.ymax], origin='lower',
+                extent=[dom.xmin,dom.xmax,dom.ymin,dom.ymax], origin='lower',
                ### Added these arguments to make the colormap static ###
-               vmin=0.185, vmax=0.215)
+                # vmin=0.185, vmax=0.215) # Mapped to radius.
+                vmin=0.0, vmax=3.0) # Mapped to velocity.
     if (plot_people):
         try:
             # People
