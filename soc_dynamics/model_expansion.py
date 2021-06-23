@@ -94,12 +94,23 @@ def export_data(sensors, output_dir, file_name):
             for i in range(len(time_list)):
                 writer.writerow([time_list[i]])
     
-    
 def column(matrix, i):
     return [row[i] for row in matrix]
 
-def people_at_spawn(people):
+def people_at_spawn_a(people):
     return(sum(x < 3 for x in column(people["xyrv"], 0)))
+
+def people_at_spawn_b(people):
+    spawn_g1 = 0
+    spawn_g2 = 0
+    
+    for i in range(len(people["xyrv"])):
+        if (people["xyrv"][i][0] < 3) and (people["xyrv"][i][1] < 1.5):
+            spawn_g1 += 1
+        if (people["xyrv"][i][0] > 9.4) and (people["xyrv"][i][1] > 3):
+            spawn_g2 += 1
+    
+    return(spawn_g1 + spawn_g2)
 
 def slowdown_velocity(dom, people, slowed_people, nn=3, seed=0, slowdown=0.1, duration=5):
 	"""

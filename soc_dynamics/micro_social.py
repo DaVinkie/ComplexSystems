@@ -544,7 +544,7 @@ while (t<Tf):
 
 ### ADDED BY US: ######################################
     # Temporal addition:
-    if(people_at_spawn(all_people[name]) < 20):
+    if(people_at_spawn_a(all_people[name]) < 20):
         if adding:
             seed += 1
             all_people = add_people(input, dom, all_people, seed)
