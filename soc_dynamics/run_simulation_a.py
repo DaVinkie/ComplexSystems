@@ -411,6 +411,6 @@ while loop < len(settings):
         
     ### ADDED BY US: ######################################
     # save data at the end of the trial
-    export_data(all_sensors, output_dir, str(loop))
+    export_data(all_sensors[name], output_dir, str(loop))
     #######################################################
 

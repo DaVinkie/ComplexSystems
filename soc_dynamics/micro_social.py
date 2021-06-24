@@ -582,7 +582,7 @@ while (t<Tf):
         draw = False
 
 ### ADDED BY US: ######################################
-export_data(all_sensors, output_dir, str(loop))
+export_data(all_sensors[name], output_dir, str(loop))
 #######################################################
 
 for idom,domain_name in enumerate(all_sensors):

@@ -84,15 +84,16 @@ def export_data(sensors, output_dir, file_name):
     file_name:
         name of the file
 	"""
-    for s in range(len(sensors["room"])):
-        with open(output_dir + "/" + file_name + "_sensor_" + str(s) + '.csv', 'w', encoding='UTF8', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(["Time"])
+    
+    time_list = []
+    for s in range(len(sensors)):
+        time_list.extend(sensors[s]["times"])
         
-            time_list = sensors["room"][s]["times"]
-        
-            for i in range(len(time_list)):
-                writer.writerow([time_list[i]])
+    with open(output_dir + "/" + file_name + "_sensor_all.csv", 'w', encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(["Time"])     
+        for i in range(len(time_list)):
+            writer.writerow([time_list[i]])
     
 def column(matrix, i):
     return [row[i] for row in matrix]
