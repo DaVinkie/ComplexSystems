@@ -22,7 +22,7 @@ plt.ion()
 
 
 # some extracted settings
-map_condition = "../Maps_with_obstacles/Corridor_unidirectional/a0.png"
+map_condition = "../Maps_with_obstacles/Corridor_unidirectional/a3.png"
 map_settings  = "../Maps_with_obstacles/Corridor_unidirectional/settings_a.json"
 output_dir  = "results/"
 loop        = 1
