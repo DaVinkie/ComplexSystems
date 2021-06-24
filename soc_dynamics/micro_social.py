@@ -544,7 +544,7 @@ while (t<Tf):
 
 ### ADDED BY US: ######################################
     # Temporal addition:
-    if(people_at_spawn(all_people[name]) < 20):
+    if(people_at_spawn_a(all_people[name]) < 20):
         if adding:
             seed += 1
             all_people = add_people(input, dom, all_people, seed)
@@ -582,7 +582,7 @@ while (t<Tf):
         draw = False
 
 ### ADDED BY US: ######################################
-export_data(all_sensors, output_dir, str(loop))
+export_data(all_sensors[name], output_dir, str(loop))
 #######################################################
 
 for idom,domain_name in enumerate(all_sensors):
