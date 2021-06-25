@@ -4,7 +4,7 @@ This is done by running the following command:
 
 The repository assumes you're using SSH to identify yourself and will throw a key-error when 
 you are not. If you use the standard password for Git, go to the file '.git/config' and change 
-the URL underneath submodules to:
+the URL underneath submodules (line 20) to:
 	https://github.com/DaVinkie/cromosim.git
 
 Afterwards run the previous command again.
