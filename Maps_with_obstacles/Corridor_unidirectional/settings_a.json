@@ -86,7 +86,7 @@
   "plot_people"      : true,
   "plot_contacts"    : false,
   "plot_desired_velocities":false,
-  "plot_velocities"  : false,
+  "plot_velocities"  : true,
   "plot_paths"       : false,
   "plot_sensors"     : true,
   "addper"           : 1.0,
