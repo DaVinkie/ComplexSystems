@@ -30,6 +30,22 @@ To run a simulation, run the following command from the terminal:
 To replicate our experiments, run the following commands - without the json flag:
 	python run_simulation_a.py
 	python run_simulation_b.py
+(Results from the experiment are already stored within the results/ folder. The complete 
+runtime is about 380 CPU hours. The simulation_a_loop.txt / simulation_b_loop.txt files allow 
+for running parallel simulation on one machine by keeping track of simulations that's currently 
+being executed.)
 
-Data handling is done in R:
- 
+
+Data handling is done in R (due to it's superior features for analyzing and working with data :):
+The analysis folder contains the folowing scripts:
+	analyze_a.R
+	analyze_b.R
+each of which is designated for collecting, cleaning, visializing, and analyzing results from the 
+respective simulations. The analysis scripts can be run interactively to produce all required figures.
+
+The generate_sims.R creates settings file for running the simulations and the results_animation.R 
+file joins output from the cromosim with a calculated thoughput for creating a joint animation of the 
+simulation and the increasing throughput.
+
+
+

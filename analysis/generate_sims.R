@@ -4,7 +4,7 @@ sims <- expand.grid(
   replication = 1:50
 )
 sims$seed <- 1:nrow(sims)
-write.csv(sims, file = "soc_dynamics/settings_a.csv", row.names = FALSE)
+write.csv(sims, file = "../settings_a.csv", row.names = FALSE)
 
 
 sims <- expand.grid(
@@ -13,4 +13,4 @@ sims <- expand.grid(
   replication = 1:50
 )
 sims$seed <- 1:nrow(sims)
-write.csv(sims, file = "soc_dynamics/settings_b.csv", row.names = FALSE)
+write.csv(sims, file = "../settings_b.csv", row.names = FALSE)

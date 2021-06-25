@@ -3,7 +3,7 @@
 
 output_dir <- "results"
 max_time   <- 99
-settings   <- read.csv("soc_dynamics/settings_a.csv")
+settings   <- read.csv("settings_a.csv")
 
 ###  read the files
 conditions_data <- list()
