@@ -50,4 +50,5 @@ each of which is designated for collecting, cleaning, visializing, and analyzing
 
 The **`generate_sims.R`** creates settings file for running the simulations and the **`results_animation.R`** file joins output from the cromosim with a calculated thoughput for creating a joint animation of the simulation and the increasing throughput.
 
+## Simulation and its throughput
 ![Simulation and its throughput](https://github.com/DaVinkie/ComplexSystems/blob/master/analysis/giffed.gif)
